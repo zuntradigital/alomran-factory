@@ -1,0 +1,26 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "products": "Products",
+    "projects": "Projects",
+    "contact": "Contact Us",
+    "exclusive": "Exclusive Offers",
+    "quote": "Request a Quote"
+  },
+  "hero": {
+    "eyebrow": "Al Omran Cement Products Factory",
+    "title1": "We Shape the Future of",
+    "title2": "Urban Design",
+    "desc1": "Since 2012, Al Omran Factory has been contributing to the development of modern cities through innovative precast concrete solutions, architectural products, and engineered stone.",
+    "desc2": "Inspired by Saudi Vision 2030, we create spaces that combine elegance, functionality, and sustainability.",
+    "cta1": "Get in Touch",
+    "cta2": "Explore Our Projects"
+  },
+  "footer": {
+    "tagline": "Excellence in Precast Concrete Solutions",
+    "copyright": "© 2024 Al Omran Cement Products Factory. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions"
+  }
+}
