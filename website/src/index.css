@@ -12,3 +12,40 @@ body { font-family: 'Cairo', sans-serif; direction: rtl; overflow-x: hidden; }
 body.en { font-family: 'Inter', sans-serif; direction: ltr; }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-thumb { background: var(--cr); border-radius: 3px; }
+
+/* ── KEYFRAMES ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes navPulse {
+  0%, 100% { box-shadow: 0 4px 12px rgba(139,0,32,0.35); }
+  50%       { box-shadow: 0 4px 24px rgba(139,0,32,0.6), 0 0 0 4px rgba(139,0,32,0.15); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Page transitions */
+.page-enter { animation: fadeIn 0.3s ease; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
