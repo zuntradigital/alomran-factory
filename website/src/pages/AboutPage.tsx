@@ -1,5 +1,9 @@
 import { useLang } from '../context/LangContext'
 import { useNavigate } from 'react-router-dom'
+import mohammedImg from '../assets/team/mohammed.jpg'
+import ahmedImg from '../assets/team/ahmed.jpg'
+import khalidImg from '../assets/team/khalid.jpg'
+import noufImg from '../assets/team/nouf.jpg'
 
 export default function AboutPage() {
   const { lang } = useLang()
@@ -14,10 +18,10 @@ export default function AboutPage() {
   ]
 
   const team = [
-    { name:'Mohammed Ibrahim', roleAr:'الرئيس التنفيذي والمؤسس', roleEn:'CEO & Founder', img:'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&q=80' },
-    { name:'Ahmed Alharbi', roleAr:'مدير المشاريع', roleEn:'Project Director', img:'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=300&q=80' },
-    { name:'Khalid Almutairi', roleAr:'مدير الهندسة', roleEn:'Engineering Manager', img:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&q=80' },
-    { name:'Nouf Alshammari', roleAr:'مدير التصميم', roleEn:'Design Manager', img:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80' },
+    { name:'Mohammed Ibrahim', roleAr:'الرئيس التنفيذي والمؤسس', roleEn:'CEO & Founder', img: mohammedImg },
+    { name:'Ahmed Alharbi', roleAr:'مدير المشاريع', roleEn:'Project Director', img: ahmedImg },
+    { name:'Khalid Almutairi', roleAr:'مدير الهندسة', roleEn:'Engineering Manager', img: khalidImg },
+    { name:'Nouf Alshammari', roleAr:'مدير التصميم', roleEn:'Design Manager', img: noufImg },
   ]
 
   const S = {
@@ -43,7 +47,7 @@ export default function AboutPage() {
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'60px',alignItems:'center'}}>
           <div style={{position:'relative'}}>
             <div style={{borderRadius:'12px',overflow:'hidden',aspectRatio:'4/3'}}>
-              <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Factory" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+              <img src={mohammedImg} alt={lang==='ar'?'م. محمد إبراهيم - الرئيس التنفيذي':'Mohammed Ibrahim - CEO'} style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'top center'}} />
             </div>
             <div style={{background:'#8B0020',color:'#fff',padding:'22px 26px',borderRadius:'10px',marginTop:'-36px',marginRight:'-28px',position:'relative',zIndex:2}}>
               <span style={{fontSize:'48px',color:'rgba(255,255,255,0.3)',lineHeight:'.8',display:'block',marginBottom:'9px'}}>"</span>

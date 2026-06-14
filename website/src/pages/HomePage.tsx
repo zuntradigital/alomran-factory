@@ -203,10 +203,10 @@ export default function HomePage() {
           <div style={{ position: 'relative', order: lang === 'ar' ? 2 : 1 }}>
             <div style={{ borderRadius: '12px', overflow: 'hidden', aspectRatio: '4/3' }}>
               <img
-                src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80"
-                alt={lang === 'ar' ? 'منتجات مصنع العمران الخرسانية' : 'Al Omran Factory precast concrete products'}
+                src={mohammedImg}
+                alt={lang === 'ar' ? 'م. محمد إبراهيم - الرئيس التنفيذي لمصنع العمران' : 'Mohammed Ibrahim - CEO of Al Omran Factory'}
                 loading="lazy"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
               />
             </div>
             <div className="hp-about-quote" style={{
@@ -406,22 +406,18 @@ export default function HomePage() {
                 const el = e.currentTarget as HTMLElement
                 el.style.transform = 'translateY(-4px)'
                 el.style.boxShadow = '0 8px 24px rgba(0,0,0,0.1)'
-                const img = el.querySelector('img') as HTMLImageElement
-                if (img) img.style.filter = 'grayscale(0)'
               }}
               onMouseLeave={e => {
                 const el = e.currentTarget as HTMLElement
                 el.style.transform = 'none'
                 el.style.boxShadow = 'none'
-                const img = el.querySelector('img') as HTMLImageElement
-                if (img) img.style.filter = 'grayscale(1)'
               }}
             >
               <div style={{ aspectRatio: '3/4', overflow: 'hidden' }}>
                 <img
                   src={m.img} alt={m.name}
                   loading="lazy"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block', filter: 'grayscale(1)', transition: 'filter 0.4s ease' }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }}
                 />
               </div>
               <div style={{ padding: '14px 12px' }}>
