@@ -13,7 +13,17 @@ export default function ContactPage() {
     setForm({name:'',email:'',phone:'',product:'',message:''})
   }
 
-  const inputStyle = {width:'100%',padding:'10px 13px',border:'1.5px solid #ddd',borderRadius:'7px',fontSize:'13.5px',fontFamily:'inherit',outline:'none',transition:'border-color .2s'}
+  const inputStyle = {width:'100%',padding:'10px 13px',border:'1.5px solid #ddd',borderRadius:'7px',fontSize:'13.5px',fontFamily:'inherit',outline:'none',transition:'border-color 0.2s, box-shadow 0.2s'}
+  const focusProps = {
+    onFocus: (e: React.FocusEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => {
+      e.currentTarget.style.borderColor = '#8B0020'
+      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(139,0,32,0.1)'
+    },
+    onBlur: (e: React.FocusEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => {
+      e.currentTarget.style.borderColor = '#ddd'
+      e.currentTarget.style.boxShadow = 'none'
+    },
+  }
 
   return (
     <div>
@@ -52,28 +62,28 @@ export default function ContactPage() {
           <div>
             <h3 style={{fontSize:'1.2rem',fontWeight:800,marginBottom:'22px'}}>{lang==='ar'?'أرسل لنا رسالة':'Send Us a Message'}</h3>
             {sent && (
-              <div style={{background:'#dcfce7',border:'1px solid #bbf7d0',borderRadius:'8px',padding:'12px 16px',marginBottom:'16px',color:'#166534',fontSize:'13.5px',fontWeight:600}}>
+              <div style={{background:'#dcfce7',border:'1px solid #bbf7d0',borderRadius:'8px',padding:'12px 16px',marginBottom:'16px',color:'#166534',fontSize:'13.5px',fontWeight:600,animation:'scaleIn 0.4s ease-out both'}}>
                 ✓ {lang==='ar'?'تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.':'Your message was sent successfully! We will contact you soon.'}
               </div>
             )}
             <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:'14px'}}>
               <div>
                 <label style={{display:'block',fontSize:'13px',fontWeight:600,color:'#444',marginBottom:'4px'}}>{lang==='ar'?'الاسم الكامل *':'Full Name *'}</label>
-                <input type="text" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder={lang==='ar'?'أدخل اسمك الكامل':'Enter your full name'} style={inputStyle} required />
+                <input type="text" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder={lang==='ar'?'أدخل اسمك الكامل':'Enter your full name'} style={inputStyle} required {...focusProps} />
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'12px'}}>
                 <div>
                   <label style={{display:'block',fontSize:'13px',fontWeight:600,color:'#444',marginBottom:'4px'}}>{lang==='ar'?'البريد الإلكتروني *':'Email *'}</label>
-                  <input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="example@email.com" style={inputStyle} required />
+                  <input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="example@email.com" style={inputStyle} required {...focusProps} />
                 </div>
                 <div>
                   <label style={{display:'block',fontSize:'13px',fontWeight:600,color:'#444',marginBottom:'4px'}}>{lang==='ar'?'رقم الهاتف':'Phone'}</label>
-                  <input type="tel" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} placeholder="+966 XX XXX XXXX" style={inputStyle} />
+                  <input type="tel" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} placeholder="+966 XX XXX XXXX" style={inputStyle} {...focusProps} />
                 </div>
               </div>
               <div>
                 <label style={{display:'block',fontSize:'13px',fontWeight:600,color:'#444',marginBottom:'4px'}}>{lang==='ar'?'نوع المنتج المطلوب':'Product Type'}</label>
-                <select value={form.product} onChange={e=>setForm({...form,product:e.target.value})} style={{...inputStyle,background:'#fff'}}>
+                <select value={form.product} onChange={e=>setForm({...form,product:e.target.value})} style={{...inputStyle,background:'#fff'}} {...focusProps}>
                   <option value="">{lang==='ar'?'اختر نوع المنتج':'Select product type'}</option>
                   {[['مقاعد','Benches'],['طاولات','Tables'],['حاويات نفايات','Trash Bins'],['أحواض زهور','Planters'],['حواجز خرسانية','Concrete Barriers'],['بوالرد','Bollards'],['مصدات سيارات','Wheel Stoppers'],['أخرى','Other']].map(([ar,en])=>(
                     <option key={ar} value={ar}>{lang==='ar'?ar:en}</option>
@@ -82,9 +92,12 @@ export default function ContactPage() {
               </div>
               <div>
                 <label style={{display:'block',fontSize:'13px',fontWeight:600,color:'#444',marginBottom:'4px'}}>{lang==='ar'?'تفاصيل المشروع *':'Project Details *'}</label>
-                <textarea value={form.message} onChange={e=>setForm({...form,message:e.target.value})} placeholder={lang==='ar'?'اذكر تفاصيل مشروعك وكمياتك المطلوبة...':'Describe your project and required quantities...'} style={{...inputStyle,minHeight:'130px',resize:'vertical'}} required />
+                <textarea value={form.message} onChange={e=>setForm({...form,message:e.target.value})} placeholder={lang==='ar'?'اذكر تفاصيل مشروعك وكمياتك المطلوبة...':'Describe your project and required quantities...'} style={{...inputStyle,minHeight:'130px',resize:'vertical'}} required {...focusProps} />
               </div>
-              <button type="submit" style={{padding:'12px',background:'#8B0020',color:'#fff',border:'none',borderRadius:'7px',fontSize:'14px',fontWeight:700,cursor:'pointer'}}>
+              <button type="submit"
+                style={{padding:'12px',background:'#8B0020',color:'#fff',border:'none',borderRadius:'7px',fontSize:'14px',fontWeight:700,cursor:'pointer',transition:'transform 0.2s, box-shadow 0.2s',boxShadow:'0 4px 12px rgba(139,0,32,0.3)'}}
+                onMouseEnter={e=>{const el=e.currentTarget as HTMLElement;el.style.transform='scale(1.02)';el.style.boxShadow='0 6px 18px rgba(139,0,32,0.45)'}}
+                onMouseLeave={e=>{const el=e.currentTarget as HTMLElement;el.style.transform='none';el.style.boxShadow='0 4px 12px rgba(139,0,32,0.3)'}}>
                 {lang==='ar'?'إرسال الرسالة ←':'Send Message →'}
               </button>
             </form>

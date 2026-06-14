@@ -1,5 +1,7 @@
+import React from 'react'
 import { useLang } from '../context/LangContext'
 import { useNavigate } from 'react-router-dom'
+import { useScrollReveal, useScrollRevealList } from '../hooks/useScrollReveal'
 import mohammedImg from '../assets/team/mohammed.jpg'
 import ahmedImg from '../assets/team/ahmed.jpg'
 import khalidImg from '../assets/team/khalid.jpg'
@@ -8,6 +10,9 @@ import noufImg from '../assets/team/nouf.jpg'
 export default function AboutPage() {
   const { lang } = useLang()
   const navigate = useNavigate()
+  const aboutRef   = useScrollReveal()
+  const teamHeader = useScrollReveal({ delay: '0s' })
+  const teamCards  = useScrollRevealList(4, 0.12)
 
   const values = [
     { icon:'✔', ar:'جودة بلا تنازل', en:'Uncompromising Quality' },
@@ -43,7 +48,7 @@ export default function AboutPage() {
       </div>
 
       {/* ABOUT MAIN */}
-      <section style={{padding:'68px 80px'}}>
+      <section ref={aboutRef} style={{padding:'68px 80px'}}>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'60px',alignItems:'center'}}>
           <div style={{position:'relative'}}>
             <div style={{borderRadius:'12px',overflow:'hidden',aspectRatio:'4/3'}}>
@@ -124,13 +129,17 @@ export default function AboutPage() {
 
       {/* TEAM */}
       <section style={{background:'#f8f8f8',padding:'68px 80px'}}>
-        <div style={{textAlign:'center',marginBottom:'36px'}}>
+        <div ref={teamHeader} style={{textAlign:'center',marginBottom:'36px'}}>
           <div style={S.label}>{lang==='ar'?'فريقنا':'Our Team'}</div>
           <h2 style={{...S.sectionTitle,textAlign:'center'}}>{lang==='ar'?'تعرف على ':' Meet '}<span style={{color:'#8B0020'}}>{lang==='ar'?'خبرائنا':'Our Experts'}</span></h2>
         </div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'16px'}}>
-          {team.map((m)=>(
-            <div key={m.name} style={{background:'#fff',border:'1px solid #eee',borderRadius:'12px',overflow:'hidden',textAlign:'center'}}>
+          {team.map((m, idx)=>(
+            <div key={m.name}
+              ref={teamCards(idx) as unknown as React.RefCallback<HTMLDivElement>}
+              style={{background:'#fff',border:'1px solid #eee',borderRadius:'12px',overflow:'hidden',textAlign:'center',transition:'transform 0.2s, box-shadow 0.2s'}}
+              onMouseEnter={e=>{const el=e.currentTarget as HTMLElement;el.style.transform='translateY(-4px)';el.style.boxShadow='0 8px 24px rgba(0,0,0,0.1)'}}
+              onMouseLeave={e=>{const el=e.currentTarget as HTMLElement;el.style.transform='none';el.style.boxShadow='none'}}>
               <div style={{aspectRatio:'1',overflow:'hidden'}}><img src={m.img} alt={m.name} style={{width:'100%',height:'100%',objectFit:'cover'}} /></div>
               <div style={{padding:'14px'}}>
                 <div style={{fontSize:'13.5px',fontWeight:700,marginBottom:'3px'}}>{m.name}</div>

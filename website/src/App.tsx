@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { LangProvider } from './context/LangContext'
 import { AuthProvider } from './context/AuthContext'
+import { animationStyles } from './utils/animations'
 import Layout from './components/layout/Layout'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
@@ -20,6 +21,8 @@ export default function App() {
   return (
     <AuthProvider>
       <LangProvider>
+        <>
+        <style>{animationStyles}</style>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
@@ -40,6 +43,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
+        </>
       </LangProvider>
     </AuthProvider>
   )
