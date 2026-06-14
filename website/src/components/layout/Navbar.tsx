@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useLang } from '../../context/LangContext'
 import { Menu, X, Heart, ChevronDown } from 'lucide-react'
+import logoImg from '../../assets/logo/logo.png'
 
 const CRIMSON = '#8B0020'
 
@@ -165,7 +166,7 @@ export default function Navbar() {
           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)' }}
           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none' }}
         >
-          <img src="/src/assets/logo/logo-icon.svg" alt="Al Omran Logo" style={{ width: '46px', height: '46px', flexShrink: 0 }} />
+          <img src={logoImg} alt="Al Omran Logo" style={{ width: '46px', height: '46px', flexShrink: 0, objectFit: 'contain' }} />
           <div style={{ lineHeight: 1.3 }}>
             <span style={{ display: 'block', fontSize: '13px', fontWeight: 800, color: '#1a1a1a' }}>
               {lang === 'ar' ? 'مصنع العمران للخرسانة المسبقة' : 'Al Omran Precast Factory'}

@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useLang } from '../context/LangContext'
 import { useNavigate } from 'react-router-dom'
 import { useScrollReveal, useScrollRevealList } from '../hooks/useScrollReveal'
+import mohammedImg from '../assets/team/mohammed.jpg'
+import ahmedImg from '../assets/team/ahmed.jpg'
+import khalidImg from '../assets/team/khalid.jpg'
+import noufImg from '../assets/team/nouf.jpg'
 
 function parseNum(str: string) {
   const m = str.match(/^(\d+)(.*)$/)
@@ -56,10 +60,10 @@ export default function HomePage() {
   ]
 
   const team = [
-    { name:'Mohammed Ibrahim', roleAr:'الرئيس التنفيذي والمؤسس', roleEn:'CEO & Founder', img:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&q=80' },
-    { name:'Ahmed Alharbi', roleAr:'مدير المشاريع', roleEn:'Project Director', img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80' },
-    { name:'Khalid Almutairi', roleAr:'مدير الهندسة', roleEn:'Engineering Manager', img:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&q=80' },
-    { name:'Nouf Alshammari', roleAr:'مدير التصميم', roleEn:'Design Manager', img:'https://images.unsplash.com/photo-1614644147798-f8c0fc9da7f6?w=300&q=80' },
+    { name:'Mohammed Ibrahim', roleAr:'الرئيس التنفيذي والمؤسس', roleEn:'CEO & Founder', img: mohammedImg },
+    { name:'Ahmed Alharbi', roleAr:'مدير المشاريع', roleEn:'Project Director', img: ahmedImg },
+    { name:'Khalid Almutairi', roleAr:'مدير الهندسة', roleEn:'Engineering Manager', img: khalidImg },
+    { name:'Nouf Alshammari', roleAr:'مدير التصميم', roleEn:'Design Manager', img: noufImg },
   ]
 
   const stats = [

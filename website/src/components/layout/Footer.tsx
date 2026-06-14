@@ -1,5 +1,6 @@
 import { useLang } from '../../context/LangContext'
 import { useNavigate } from 'react-router-dom'
+import logoWhiteImg from '../../assets/logo/logo-white.png'
 
 const hover = (color: string) => ({
   onMouseEnter: (e: React.MouseEvent<HTMLElement>) => { (e.currentTarget as HTMLElement).style.color = '#fff' },
@@ -54,7 +55,7 @@ export default function Footer() {
           {/* Col 1 — Brand */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-              <img src="/src/assets/logo/logo-icon-white.svg" alt="Al Omran Logo" style={{ width: '36px', height: '36px', flexShrink: 0 }} />
+              <img src={logoWhiteImg} alt="Al Omran Logo" style={{ width: '36px', height: '36px', flexShrink: 0, objectFit: 'contain' }} />
               <div>
                 <span style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: '#fff' }}>
                   {lang === 'ar' ? 'مصنع العمران للمنتجات الأسمنتية' : 'Al Omran Cement Products'}
