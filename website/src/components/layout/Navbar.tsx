@@ -95,7 +95,7 @@ export default function Navbar() {
       <div key={key} ref={servicesRef} style={{ position: 'relative' }}
         onMouseEnter={() => setServicesOpen(true)}
         onMouseLeave={() => setServicesOpen(false)}>
-        <button style={{
+        <button onClick={() => navigate('/services')} style={{
           display: 'flex', alignItems: 'center', gap: '4px',
           padding: '4px 14px', fontSize: '14px',
           fontWeight: servicesOpen ? 700 : 500,

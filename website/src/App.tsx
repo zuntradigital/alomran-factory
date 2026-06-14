@@ -7,6 +7,7 @@ import AboutPage from './pages/AboutPage'
 import ProductsPage from './pages/ProductsPage'
 import ProjectsPage from './pages/ProjectsPage'
 import ContactPage from './pages/ContactPage'
+import ServicesPage from './pages/ServicesPage'
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminLogin from './pages/admin/AdminLogin'
 import AdminOverview from './pages/admin/AdminOverview'
@@ -27,6 +28,7 @@ export default function App() {
               <Route path="products" element={<ProductsPage />} />
               <Route path="projects" element={<ProjectsPage />} />
               <Route path="contact" element={<ContactPage />} />
+              <Route path="services" element={<ServicesPage />} />
             </Route>
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>

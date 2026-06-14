@@ -5,7 +5,7 @@ import { products, categories } from '../data/products'
 import type { Product } from '../types'
 
 export default function ProductsPage() {
-  const { lang } = useLang()
+  const { lang, isRTL } = useLang()
   const navigate = useNavigate()
   const [cat, setCat] = useState('all')
   const [selected, setSelected] = useState<Product | null>(null)
@@ -34,6 +34,36 @@ export default function ProductsPage() {
       </div>
 
       <div style={{ padding: '32px 80px' }}>
+        {/* CATALOG DOWNLOAD BANNER */}
+        <div style={{
+          padding: '20px 24px', background: '#8B0020', borderRadius: '10px',
+          marginBottom: '28px', display: 'flex', alignItems: 'center', gap: '16px',
+          flexDirection: isRTL ? 'row-reverse' : 'row',
+        }}>
+          <span style={{ fontSize: '28px', flexShrink: 0 }}>📄</span>
+          <div style={{ flex: 1, textAlign: isRTL ? 'right' : 'left' }}>
+            <div style={{ fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '3px' }}>
+              {lang === 'ar' ? 'تحميل الكتالوج الكامل' : 'Download Complete Catalog'}
+            </div>
+            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.85)' }}>
+              {lang === 'ar' ? 'PDF بصيغة عالية الجودة مع جميع المنتجات والمواد' : 'High-quality PDF with all products and materials'}
+            </div>
+          </div>
+          <a
+            href="/alomran-catalog.pdf"
+            download="alomran-catalog.pdf"
+            style={{
+              padding: '10px 22px', background: '#fff', color: '#8B0020',
+              borderRadius: '7px', fontWeight: 700, fontSize: '13.5px',
+              textDecoration: 'none', flexShrink: 0, transition: 'background 0.2s',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#f0f0f0' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff' }}
+          >
+            {lang === 'ar' ? '⬇ تحميل' : '⬇ Download'}
+          </a>
+        </div>
+
         {/* CATEGORY FILTERS */}
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '28px' }}>
           {categories.map(c => (
