@@ -137,7 +137,7 @@ export default function HomePage() {
         {/* IMAGE COLUMN — second in DOM; RTL places it on the left, LTR on the right */}
         <div className="hp-hero-img" style={{ overflow: 'hidden', animation: lang === 'ar' ? 'fadeInLeft 0.7s ease 0.2s both' : 'fadeInRight 0.7s ease 0.2s both' }}>
           <img
-            src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1400&q=90"
+            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1400&q=85"
             alt={lang === 'ar' ? 'مصنع العمران - مبنى خرسانة حديث' : 'Al Omran - modern precast concrete building'}
             fetchPriority="high"
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -199,7 +199,7 @@ export default function HomePage() {
           <div style={{ position: 'relative', order: lang === 'ar' ? 2 : 1 }}>
             <div style={{ borderRadius: '12px', overflow: 'hidden', aspectRatio: '4/3' }}>
               <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
+                src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80"
                 alt={lang === 'ar' ? 'منتجات مصنع العمران الخرسانية' : 'Al Omran Factory precast concrete products'}
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

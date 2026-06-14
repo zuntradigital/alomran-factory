@@ -14,7 +14,6 @@ export default function Footer() {
   const quickLinks = [
     ['/', lang === 'ar' ? 'الرئيسية' : 'Home'],
     ['/about', lang === 'ar' ? 'من نحن' : 'About Us'],
-    ['#', lang === 'ar' ? 'الأخبار' : 'News'],
     ['#', lang === 'ar' ? 'الوظائف' : 'Careers'],
     ['#', lang === 'ar' ? 'التنزيلات' : 'Downloads'],
     ['#', lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ'],
@@ -26,8 +25,8 @@ export default function Footer() {
     : ['Urban Furniture', 'Architectural Facades', 'Precast Concrete', 'Engineered Stone', 'Public Squares & Walkways', 'Custom Solutions']
 
   const otherLinks = lang === 'ar'
-    ? ['الأخبار', 'المدونة', 'الشركاء', 'الأسئلة الشائعة', 'تواصل معنا']
-    : ['News', 'Blog', 'Partners', 'FAQ', 'Contact Us']
+    ? ['المدونة', 'الشركاء', 'الأسئلة الشائعة', 'تواصل معنا']
+    : ['Blog', 'Partners', 'FAQ', 'Contact Us']
 
   const linkStyle: React.CSSProperties = {
     fontSize: '12.5px', background: 'none', border: 'none',
@@ -55,9 +54,7 @@ export default function Footer() {
           {/* Col 1 — Brand */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-              <div style={{ width: '36px', height: '36px', background: '#8B0020', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 900, fontSize: '18px', flexShrink: 0 }}>
-                P
-              </div>
+              <img src="/src/assets/logo/logo-icon-white.svg" alt="Al Omran Logo" style={{ width: '36px', height: '36px', flexShrink: 0 }} />
               <div>
                 <span style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: '#fff' }}>
                   {lang === 'ar' ? 'مصنع العمران للمنتجات الأسمنتية' : 'Al Omran Cement Products'}

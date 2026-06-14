@@ -16,7 +16,6 @@ const NAV_EN: NavItem[] = [
   { type: 'services' },
   { type: 'link', to: '/projects', key: 'nav.projects' },
   { type: 'link', to: '/products', key: 'nav.products' },
-  { type: 'link', to: '/news', key: 'nav.news' },
 ]
 
 const NAV_AR: NavItem[] = [
@@ -24,7 +23,6 @@ const NAV_AR: NavItem[] = [
   { type: 'services' },
   { type: 'link', to: '/projects', key: 'nav.projects' },
   { type: 'link', to: '/products', key: 'nav.products' },
-  { type: 'link', to: '/news', key: 'nav.news' },
   { type: 'link', to: '/contact', key: 'nav.contact' },
   { type: 'link', to: '/about', key: 'nav.about' },
 ]
@@ -167,13 +165,7 @@ export default function Navbar() {
           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)' }}
           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none' }}
         >
-          <div style={{
-            width: '42px', height: '42px', borderRadius: '8px', flexShrink: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: `linear-gradient(135deg, ${CRIMSON} 0%, #6B0018 100%)`,
-            color: '#fff', fontWeight: 900, fontSize: '20px',
-            boxShadow: '0 4px 12px rgba(139,0,32,0.3)',
-          }}>P</div>
+          <img src="/src/assets/logo/logo-icon.svg" alt="Al Omran Logo" style={{ width: '46px', height: '46px', flexShrink: 0 }} />
           <div style={{ lineHeight: 1.3 }}>
             <span style={{ display: 'block', fontSize: '13px', fontWeight: 800, color: '#1a1a1a' }}>
               {lang === 'ar' ? 'مصنع العمران للخرسانة المسبقة' : 'Al Omran Precast Factory'}
