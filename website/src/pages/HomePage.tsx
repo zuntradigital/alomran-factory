@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useLang } from '../context/LangContext'
 import { useNavigate } from 'react-router-dom'
 import { useScrollReveal, useScrollRevealList } from '../hooks/useScrollReveal'
+import { team } from '../data/team'
 import mohammedImg from '../assets/team/mohammed.jpg'
-import ahmedImg from '../assets/team/ahmed.jpg'
-import khalidImg from '../assets/team/khalid.jpg'
-import noufImg from '../assets/team/nouf.jpg'
+import { useCompanySettings, formatPhone } from '../hooks/useCompanySettings'
 
 function parseNum(str: string) {
   const m = str.match(/^(\d+)(.*)$/)
@@ -40,8 +39,20 @@ function CountUpStat({ num, style }: { num: string; style?: React.CSSProperties 
 }
 
 export default function HomePage() {
-  const { lang } = useLang()
+  const { lang, isRTL } = useLang()
   const navigate = useNavigate()
+  const s = useCompanySettings()
+  const [newsletterEmail, setNewsletterEmail] = useState('')
+  const [newsletterSent, setNewsletterSent] = useState(false)
+
+  const handleNewsletter = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!newsletterEmail.trim()) return
+    console.log('Newsletter subscription:', newsletterEmail)
+    setNewsletterSent(true)
+    setNewsletterEmail('')
+    setTimeout(() => setNewsletterSent(false), 4000)
+  }
 
   const featuresRef  = useScrollReveal()
   const aboutRef     = useScrollReveal()
@@ -57,13 +68,6 @@ export default function HomePage() {
     { img:'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=500&q=80', titleAr:'حلول خرسانة مسبقة الصب', titleEn:'Precast Concrete Solutions', descAr:'أنظمة خرسانية عالية الجودة', descEn:'High-quality precast concrete systems' },
     { img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=80', titleAr:'أثاث حضري', titleEn:'Urban Furniture', descAr:'أثاث أنيق ومتين للمساحات العامة', descEn:'Elegant and durable public space furniture' },
     { img:'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=500&q=80', titleAr:'واجهات معمارية', titleEn:'Architectural Facades', descAr:'حلول معمارية مبتكرة', descEn:'Innovative architectural solutions' },
-  ]
-
-  const team = [
-    { name:'Mohammed Ibrahim', roleAr:'الرئيس التنفيذي والمؤسس', roleEn:'CEO & Founder', img: mohammedImg },
-    { name:'Ahmed Alharbi', roleAr:'مدير المشاريع', roleEn:'Project Director', img: ahmedImg },
-    { name:'Khalid Almutairi', roleAr:'مدير الهندسة', roleEn:'Engineering Manager', img: khalidImg },
-    { name:'Nouf Alshammari', roleAr:'مدير التصميم', roleEn:'Design Manager', img: noufImg },
   ]
 
   const stats = [
@@ -370,67 +374,83 @@ export default function HomePage() {
       </section>
 
       {/* TEAM */}
-      <section ref={teamRef} className="hp-team-section" style={{ padding: '68px 80px', background: '#fff', direction: lang === 'ar' ? 'rtl' : 'ltr' }}>
-        {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px' }}>
-          <div>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#8B0020', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>
-              {lang === 'ar' ? 'فريقنا' : 'Our Team'}
-            </div>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.2rem)', fontWeight: 800, color: '#1a1a1a' }}>
-              {lang === 'ar'
-                ? <>تعرف على <span style={{ color: '#8B0020' }}>خبرائنا</span></>
-                : <>Meet <span style={{ color: '#8B0020' }}>Our Experts</span></>}
-            </h2>
-          </div>
-          <button onClick={() => navigate('/about')} style={{
-            padding: '8px 17px', border: '1.5px solid #ddd', borderRadius: '6px',
-            fontSize: '13px', fontWeight: 600, color: '#333', background: '#fff', cursor: 'pointer',
-          }}>
-            {lang === 'ar' ? 'عرض فريق العمل ←' : 'View Our Team →'}
-          </button>
+      <section
+        ref={teamRef}
+        className="hp-team-section"
+        style={{ padding: '68px 80px', background: '#fff', direction: isRTL ? 'rtl' : 'ltr' }}
+      >
+        <div style={{
+          display: 'flex',
+          justifyContent: isRTL ? 'flex-end' : 'flex-start',
+          alignItems: 'center',
+          marginBottom: '48px',
+          gap: '16px',
+        }}>
+          <h2 style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.2rem)', fontWeight: 800, color: '#1a1a1a', margin: 0 }}>
+            {lang === 'ar'
+              ? <> {'تعرف على '}<span style={{ color: '#8B0020' }}>{'خبرائنا'}</span></>
+              : <> {'Meet Our '}<span style={{ color: '#8B0020' }}>{'Experts'}</span></>}
+          </h2>
         </div>
 
-        {/* Grid: 4 team cards + 1 CTA */}
-        <div className="hp-team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr) 260px', gap: '16px', alignItems: 'start' }}>
-          {team.map((m) => (
+        {/* 5-column grid: 4 team cards + 1 CTA card */}
+        <div className="hp-team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr) 260px', gap: '20px', alignItems: 'start', marginBottom: '40px' }}>
+          {team.map((member, idx) => (
             <div
-              key={m.name}
-              ref={teamCardRef(team.indexOf(m)) as unknown as React.RefCallback<HTMLDivElement>}
+              key={member.id}
+              ref={teamCardRef(idx) as unknown as React.RefCallback<HTMLDivElement>}
               style={{
                 background: '#fff', border: '1px solid #eee', borderRadius: '12px',
                 overflow: 'hidden', textAlign: 'center',
-                transition: 'transform 0.2s, box-shadow 0.2s', cursor: 'default',
+                transition: 'all 0.25s cubic-bezier(0.23, 1, 0.320, 1)', cursor: 'pointer',
               }}
               onMouseEnter={e => {
                 const el = e.currentTarget as HTMLElement
-                el.style.transform = 'translateY(-4px)'
+                el.style.transform = 'translateY(-6px)'
                 el.style.boxShadow = '0 8px 24px rgba(0,0,0,0.1)'
+                const img = el.querySelector('img') as HTMLElement
+                if (img) img.style.filter = 'grayscale(0)'
               }}
               onMouseLeave={e => {
                 const el = e.currentTarget as HTMLElement
                 el.style.transform = 'none'
                 el.style.boxShadow = 'none'
+                const img = el.querySelector('img') as HTMLElement
+                if (img) img.style.filter = 'grayscale(15%)'
               }}
             >
-              <div style={{ aspectRatio: '3/4', overflow: 'hidden' }}>
+              <div style={{ aspectRatio: '3/4', overflow: 'hidden', background: '#f0f0f0' }}>
                 <img
-                  src={m.img} alt={m.name}
+                  src={member.image}
+                  alt={member.name}
                   loading="lazy"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }}
+                  style={{
+                    width: '100%', height: '100%', objectFit: 'cover',
+                    objectPosition: 'center top', display: 'block',
+                    filter: 'grayscale(15%)', transition: 'filter 0.3s ease',
+                  }}
                 />
               </div>
-              <div style={{ padding: '14px 12px' }}>
-                <div style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a', marginBottom: '3px' }}>{m.name}</div>
-                <div style={{ fontSize: '12px', color: '#888', marginBottom: '10px' }}>{lang === 'ar' ? m.roleAr : m.roleEn}</div>
+              <div style={{ padding: '16px 12px' }}>
+                <div style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a', marginBottom: '3px' }}>
+                  {member.name}
+                </div>
+                <div style={{ fontSize: '12px', color: '#888', marginBottom: '10px' }}>
+                  {lang === 'ar' ? member.roleAr : member.roleEn}
+                </div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label={`${m.name} LinkedIn`}
+                  <a
+                    href={s.socialLinks.linkedin || 'https://www.linkedin.com/company/al-omran-precast/'}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${member.name} LinkedIn`}
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       width: '28px', height: '28px', background: '#0077b5',
-                      borderRadius: '5px', color: '#fff', fontSize: '13px',
-                      fontWeight: 700, fontStyle: 'italic', textDecoration: 'none',
-                    }}>
+                      borderRadius: '5px', color: '#fff', fontSize: '12px',
+                      fontWeight: 700, textDecoration: 'none',
+                    }}
+                  >
                     in
                   </a>
                 </div>
@@ -438,87 +458,193 @@ export default function HomePage() {
             </div>
           ))}
 
-          {/* CTA CARD */}
-          <div className="hp-cta-card" style={{
-            background: '#8B0020', color: '#fff', borderRadius: '12px',
-            padding: '28px 24px', display: 'flex', flexDirection: 'column',
-            justifyContent: 'space-between', minHeight: '280px',
-          }}>
+          {/* CTA Card — 5th column */}
+          <div
+            className="hp-cta-card"
+            style={{
+              background: '#8B0020', color: '#fff', borderRadius: '12px',
+              padding: '28px 24px', display: 'flex', flexDirection: 'column',
+              justifyContent: 'space-between', minHeight: '280px',
+              transition: 'all 0.3s ease', cursor: 'pointer',
+            }}
+            onMouseEnter={e => {
+              const el = e.currentTarget as HTMLElement
+              el.style.transform = 'translateY(-4px)'
+              el.style.boxShadow = '0 12px 32px rgba(139, 0, 32, 0.3)'
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget as HTMLElement
+              el.style.transform = 'none'
+              el.style.boxShadow = 'none'
+            }}
+          >
             <div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, lineHeight: 1.35, marginBottom: '10px' }}>
-                {lang === 'ar' ? 'هل لديك مشروع في ذهنك؟' : 'Have a Project in Mind?'}
+              <h3 style={{ fontSize: 'clamp(1.1rem, 2vw, 1.3rem)', fontWeight: 800, lineHeight: 1.35, margin: '0 0 10px 0' }}>
+                {lang === 'ar' ? 'هل لديك مشروع في الذهن؟' : 'Have a Project in Mind?'}
               </h3>
-              <p style={{ fontSize: '13px', opacity: .85, lineHeight: 1.7, marginBottom: '20px' }}>
+              <p style={{ fontSize: '13px', opacity: 0.85, lineHeight: 1.7, margin: '0 0 20px 0' }}>
                 {lang === 'ar'
-                  ? 'تواصل مع مصنع العمران لإنشاء مساحات حضرية استثنائية تستحق الفخر.'
-                  : 'Partner with Al Omran to create exceptional urban spaces worth pride.'}
+                  ? 'دعنا نحول رؤيتك إلى واقع. تواصل معنا لتطوير حل مشروعك.'
+                  : "Let's turn your vision into reality. Partner with Al Omran Precast Factory to create exceptional urban spaces."}
               </p>
             </div>
-            <button onClick={() => navigate('/contact')} style={{
-              padding: '11px 18px', background: '#fff', color: '#8B0020',
-              border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: 700, cursor: 'pointer',
-            }}>
-              {lang === 'ar' ? 'تواصل معنا الآن ←' : 'Get in Touch Today →'}
+            <button
+              onClick={() => navigate('/contact')}
+              style={{
+                background: 'white', color: '#8B0020', border: 'none', borderRadius: '6px',
+                padding: '12px 24px', fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLElement
+                el.style.transform = 'translateY(-2px)'
+                el.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)'
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLElement
+                el.style.transform = 'none'
+                el.style.boxShadow = 'none'
+              }}
+            >
+              {lang === 'ar' ? 'تواصل معنا اليوم' : 'Get in Touch Today'}
             </button>
           </div>
         </div>
+
+        {/* View Team Button */}
+        <div style={{ textAlign: isRTL ? 'right' : 'left' }}>
+          <button
+            onClick={() => navigate('/about')}
+            style={{
+              padding: '12px 28px', border: '1.5px solid #ddd', background: 'transparent',
+              color: '#1a1a1a', borderRadius: '6px', fontSize: '13px', fontWeight: 700,
+              cursor: 'pointer', transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={e => {
+              const el = e.currentTarget as HTMLElement
+              el.style.borderColor = '#8B0020'
+              el.style.color = '#8B0020'
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget as HTMLElement
+              el.style.borderColor = '#ddd'
+              el.style.color = '#1a1a1a'
+            }}
+          >
+            {lang === 'ar' ? '← عرض فريق العمل' : 'View Our Team →'}
+          </button>
+        </div>
       </section>
 
-      {/* CTA BAND */}
-      <section className="hp-cta-band" style={{
-        background: '#8B0020', padding: '48px 80px',
-        display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '48px', alignItems: 'center',
-        direction: lang === 'ar' ? 'rtl' : 'ltr',
-      }}>
-        <div>
-          <h2 style={{ fontSize: '1.6rem', fontWeight: 900, color: '#fff', lineHeight: 1.3, marginBottom: '10px' }}>
-            {lang === 'ar' ? 'هل أنت مستعد لبدء مشروعك؟' : 'Ready to Start Your Project?'}
-          </h2>
-          <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, marginBottom: '20px' }}>
-            {lang === 'ar' ? 'تواصل معنا الآن للحصول على استشارة مجانية وعرض سعر مخصص.' : 'Contact us for a free consultation and customized quote.'}
-          </p>
-          <button onClick={() => navigate('/contact')} style={{
-            padding: '11px 24px', border: '2px solid rgba(255,255,255,0.6)',
-            color: '#fff', background: 'transparent', borderRadius: '7px',
-            fontSize: '13.5px', fontWeight: 700, cursor: 'pointer',
-          }}>
-            {lang === 'ar' ? 'تواصل معنا ←' : 'Contact Us →'}
-          </button>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          {[
-            { icon: '📍', textAr: 'المدينة الصناعية الثانية، الرياض، المملكة العربية السعودية', textEn: '2nd Industrial City, Riyadh, Kingdom of Saudi Arabia' },
-            { icon: '📞', textAr: '+966 11 123 4567', textEn: '+966 11 123 4567' },
-            { icon: '✉️', textAr: 'info@alomranprecast.com', textEn: 'info@alomranprecast.com' },
-          ].map((c, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '11px', color: '#fff' }}>
-              <span style={{ fontSize: '16px', flexShrink: 0 }}>{c.icon}</span>
-              <span style={{ fontSize: '13.5px', opacity: 0.9, lineHeight: 1.6 }}>{lang === 'ar' ? c.textAr : c.textEn}</span>
-            </div>
-          ))}
-        </div>
-        <div>
-          <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.8)', fontWeight: 600, marginBottom: '8px' }}>
-            {lang === 'ar' ? 'اشترك في نشرتنا الإخبارية' : 'Subscribe to Our Newsletter'}
+      {/* RED CTA BAND — 3-column: CTA text | Contact Info | Newsletter */}
+      <section
+        className="hp-cta-band"
+        style={{
+          background: '#8B0020', padding: '48px 80px', color: 'white',
+          direction: isRTL ? 'rtl' : 'ltr',
+        }}
+      >
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '48px', alignItems: 'center' }}>
+
+          {/* Left: CTA */}
+          <div>
+            <h2 style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)', fontWeight: 800, lineHeight: 1.35, margin: '0 0 12px 0' }}>
+              {lang === 'ar' ? 'هل أنت مستعد لبدء مشروعك؟' : 'Ready to Start Your Project?'}
+            </h2>
+            <p style={{ fontSize: '13.5px', opacity: 0.9, lineHeight: 1.7, margin: '0 0 20px 0' }}>
+              {lang === 'ar'
+                ? 'تواصل معنا اليوم للحصول على حل مشروع مصمم خصيصاً لاحتياجاتك.'
+                : 'Contact us today to get specialized solutions tailored to your needs.'}
+            </p>
+            <button
+              onClick={() => navigate('/contact')}
+              style={{
+                background: 'white', color: '#8B0020', border: 'none', borderRadius: '6px',
+                padding: '12px 28px', fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLElement
+                el.style.transform = 'translateY(-2px)'
+                el.style.boxShadow = '0 6px 16px rgba(0,0,0,0.3)'
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLElement
+                el.style.transform = 'none'
+                el.style.boxShadow = 'none'
+              }}
+            >
+              {lang === 'ar' ? 'تواصل معنا' : 'Contact Us'}
+            </button>
           </div>
-          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, marginBottom: '12px' }}>
-            {lang === 'ar' ? 'احصل على آخر أخبارنا وعروضنا مباشرة في بريدك.' : 'Get our latest news and offers delivered to your inbox.'}
-          </p>
-          <input type="email" placeholder={lang === 'ar' ? 'أدخل بريدك الإلكتروني' : 'Enter your email'}
-            style={{
-              width: '100%', padding: '10px 13px', marginBottom: '7px',
-              background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.25)',
-              borderRadius: '6px', color: '#fff', fontSize: '13px', outline: 'none',
-              boxSizing: 'border-box',
-            } as React.CSSProperties} />
-          <button style={{ width: '100%', padding: '10px', background: '#fff', color: '#8B0020', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: 700, cursor: 'pointer' }}>
-            {lang === 'ar' ? 'اشترك الآن ←' : 'Subscribe Now →'}
-          </button>
+
+          {/* Center: Contact Info */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {[
+              { icon: '📍', labelAr: 'العنوان',            labelEn: 'Address', value: lang === 'ar' ? s.addressAr : s.addressEn },
+              { icon: '📞', labelAr: 'الهاتف',             labelEn: 'Phone',   value: formatPhone(s.phoneFactory) },
+              { icon: '✉️', labelAr: 'البريد الإلكتروني', labelEn: 'Email',   value: s.contactEmail },
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', gap: '12px', fontSize: '13px' }}>
+                <span style={{ fontSize: '16px' }}>{item.icon}</span>
+                <div>
+                  <div style={{ opacity: 0.8, marginBottom: '2px' }}>
+                    {lang === 'ar' ? item.labelAr : item.labelEn}
+                  </div>
+                  <div style={{ fontWeight: 600 }}>{item.value}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right: Newsletter */}
+          <div>
+            <h3 style={{ fontSize: '14px', fontWeight: 700, margin: '0 0 12px 0' }}>
+              {lang === 'ar' ? 'اشترك في النشرة البريدية' : 'Subscribe to Our Newsletter'}
+            </h3>
+            <p style={{ fontSize: '12px', opacity: 0.8, margin: '0 0 14px 0' }}>
+              {lang === 'ar' ? 'ابقَ مطلعاً على أحدث الأخبار والعروض.' : 'Stay updated with our latest news and offers.'}
+            </p>
+            {newsletterSent ? (
+              <div style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.15)', borderRadius: '6px', fontSize: '12px', fontWeight: 600 }}>
+                {lang === 'ar' ? '✓ شكراً! تم الاشتراك بنجاح.' : "✓ Thanks! You've been subscribed."}
+              </div>
+            ) : (
+              <form onSubmit={handleNewsletter} style={{ display: 'flex', gap: '8px', flexDirection: isRTL ? 'row-reverse' : 'row' }}>
+                <input
+                  type="email"
+                  placeholder={lang === 'ar' ? 'بريدك الإلكتروني' : 'Enter your email'}
+                  value={newsletterEmail}
+                  onChange={e => setNewsletterEmail(e.target.value)}
+                  required
+                  style={{
+                    flex: 1, padding: '12px 14px', borderRadius: '5px', border: 'none',
+                    fontSize: '13px', outline: 'none', transition: 'box-shadow 0.2s ease',
+                  } as React.CSSProperties}
+                  onFocus={e => { e.currentTarget.style.boxShadow = '0 0 0 3px rgba(255,255,255,0.2)' }}
+                  onBlur={e => { e.currentTarget.style.boxShadow = 'none' }}
+                />
+                <button
+                  type="submit"
+                  style={{
+                    padding: '12px 20px', background: 'white', color: '#8B0020', border: 'none',
+                    borderRadius: '5px', fontWeight: 700, fontSize: '13px', cursor: 'pointer',
+                    transition: 'all 0.2s ease', whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none' }}
+                >
+                  {lang === 'ar' ? 'اشترك' : 'Subscribe'}
+                </button>
+              </form>
+            )}
+          </div>
+
         </div>
       </section>
 
       <style>{`
-        /* ── TABLET 768–1200px ── */
+        /* ── TABLET 769–1200px ── */
         @media (min-width: 769px) and (max-width: 1200px) {
           .hp-hero-text { padding: 40px 40px !important; }
           .hp-features-section { padding: 32px 40px !important; }
@@ -528,9 +654,9 @@ export default function HomePage() {
           .hp-projects-section { padding: 48px 40px !important; }
           .hp-projects-grid { grid-template-columns: repeat(3,1fr) !important; }
           .hp-team-section { padding: 48px 40px !important; }
-          .hp-team-grid { grid-template-columns: repeat(2,1fr) !important; }
+          .hp-team-grid { grid-template-columns: repeat(3,1fr) !important; }
           .hp-cta-card { grid-column: 1 / -1 !important; }
-          .hp-cta-band { padding: 40px 40px !important; gap: 32px !important; }
+          .hp-cta-band { padding: 40px 40px !important; }
         }
         /* ── MOBILE < 768px ── */
         @media (max-width: 768px) {
@@ -547,9 +673,9 @@ export default function HomePage() {
           .hp-projects-section { padding: 40px 20px !important; }
           .hp-projects-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
           .hp-team-section { padding: 40px 20px !important; }
-          .hp-team-grid { grid-template-columns: 1fr 1fr !important; }
-          .hp-cta-card { grid-column: 1 / -1 !important; }
-          .hp-cta-band { grid-template-columns: 1fr !important; gap: 24px !important; padding: 32px 20px !important; }
+          .hp-team-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+          .hp-cta-card { grid-column: 1 / -1 !important; margin-top: 16px !important; }
+          .hp-cta-band { padding: 32px 20px !important; }
         }
       `}</style>
     </div>

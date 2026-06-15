@@ -8,8 +8,8 @@ export default function ProjectsPage() {
     { titleAr:'ممشى الحديقة المركزية', titleEn:'Central Park Walkway', locAr:'جدة، 2023', locEn:'Jeddah, 2023', img:'https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?w=500&q=80', span:1 },
     { titleAr:'واجهات مجمع سكني', titleEn:'Residential Complex Facades', locAr:'الدمام، 2023', locEn:'Dammam, 2023', img:'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&q=80', span:1 },
     { titleAr:'منتزه عام', titleEn:'Public Park', locAr:'المدينة المنورة، 2022', locEn:'Madinah, 2022', img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=80', span:1 },
+    { titleAr:'مشروع الساحات العامة', titleEn:'Public Squares Project', locAr:'الرياض، 2023', locEn:'Riyadh, 2023', img:'https://images.unsplash.com/photo-1542640244-7e672d6cef4e?w=900&q=80', span:1 },
     { titleAr:'مول الرياض - جلسات خارجية', titleEn:'Riyadh Mall - Outdoor Seating', locAr:'الرياض، 2024', locEn:'Riyadh, 2024', img:'https://images.unsplash.com/photo-1431576901776-e539bd916ba2?w=900&q=80', span:2 },
-    { titleAr:'مشروع الساحات العامة', titleEn:'Public Squares Project', locAr:'الرياض، 2023', locEn:'Riyadh, 2023', img:'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500&q=80', span:1 },
   ]
 
   return (
@@ -29,7 +29,7 @@ export default function ProjectsPage() {
           {projects.map((p,i)=>(
             <div key={i} style={{gridColumn:`span ${p.span}`,borderRadius:'10px',overflow:'hidden',position:'relative',cursor:'pointer',background:'#1a1a1a'}}>
               <img src={p.img} alt={lang==='ar'?p.titleAr:p.titleEn}
-                style={{width:'100%',aspectRatio:p.span===2?'16/7':'4/3',objectFit:'cover',display:'block',opacity:.85,transition:'transform .4s'}}
+                style={{width:'100%',height:'100%',aspectRatio:p.span===2?'16/7':'4/3',objectFit:'cover',objectPosition:'center',display:'block',opacity:.85,transition:'transform .4s'}}
                 onMouseEnter={e=>(e.currentTarget.style.transform='scale(1.04)')}
                 onMouseLeave={e=>(e.currentTarget.style.transform='scale(1)')} />
               <div style={{position:'absolute',inset:0,background:'linear-gradient(0deg,rgba(0,0,0,.8) 0%,transparent 55%)',display:'flex',flexDirection:'column',justifyContent:'flex-end',padding:'18px'}}>

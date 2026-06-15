@@ -272,7 +272,7 @@ export default function Navbar() {
           {navItems.map((item, i) => {
             if (item.type === 'services') {
               return (
-                <button key={i} onClick={() => { navigate('/products'); setMobileOpen(false) }}
+                <button key={i} onClick={() => { navigate('/services'); setMobileOpen(false) }}
                   style={{ display: 'block', width: '100%', textAlign: lang === 'ar' ? 'right' : 'left', padding: '11px 12px', fontSize: '15px', fontWeight: 500, color: '#333', background: 'none', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
                   {t('nav.services')}
                 </button>
