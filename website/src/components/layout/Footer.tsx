@@ -35,8 +35,7 @@ export default function Footer() {
   ].filter(l => l.url)
 
   const mapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(s.addressEn)}`
-  const phoneTel  = s.phoneFactory.replace(/\s/g, '')
-  const phone2Tel = s.phoneHeadOffice.replace(/\s/g, '')
+  const phoneTel = s.phoneFactory.replace(/\s/g, '')
 
   const linkBtn: React.CSSProperties = {
     background: 'none', border: 'none', color: 'rgba(255,255,255,0.55)',

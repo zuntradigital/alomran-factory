@@ -313,7 +313,7 @@ export default function HomePage() {
 
       {/* PROJECTS */}
       <section className="hp-projects-section" style={{ background: '#f8f8f8', padding: '68px 80px', direction: lang === 'ar' ? 'rtl' : 'ltr' }}>
-        <div ref={projHeaderRef} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '26px' }}>
+        <div ref={projHeaderRef} className="hp-projects-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '26px' }}>
           <h2 style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.2rem)', fontWeight: 800, color: '#1a1a1a' }}>
             {lang === 'ar'
               ? <> مشاريعنا <span style={{ color: '#8B0020' }}>المميزة</span></>
@@ -610,7 +610,7 @@ export default function HomePage() {
                 {lang === 'ar' ? '✓ شكراً! تم الاشتراك بنجاح.' : "✓ Thanks! You've been subscribed."}
               </div>
             ) : (
-              <form onSubmit={handleNewsletter} style={{ display: 'flex', gap: '8px', flexDirection: isRTL ? 'row-reverse' : 'row' }}>
+              <form onSubmit={handleNewsletter} className="hp-newsletter-form" style={{ display: 'flex', gap: '8px', flexDirection: isRTL ? 'row-reverse' : 'row' }}>
                 <input
                   type="email"
                   placeholder={lang === 'ar' ? 'بريدك الإلكتروني' : 'Enter your email'}
@@ -671,11 +671,14 @@ export default function HomePage() {
           .hp-stats-section { padding: 32px 20px !important; }
           .hp-stats-grid { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
           .hp-projects-section { padding: 40px 20px !important; }
+          .hp-projects-header { flex-wrap: wrap; gap: 12px !important; }
           .hp-projects-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
           .hp-team-section { padding: 40px 20px !important; }
           .hp-team-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
           .hp-cta-card { grid-column: 1 / -1 !important; margin-top: 16px !important; }
           .hp-cta-band { padding: 32px 20px !important; }
+          .hp-newsletter-form { flex-direction: column !important; }
+          .hp-newsletter-form input { width: 100% !important; box-sizing: border-box !important; }
         }
       `}</style>
     </div>

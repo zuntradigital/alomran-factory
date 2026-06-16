@@ -127,7 +127,7 @@ function LoginPage() {
 }
 
 // ── SIDEBAR ───────────────────────────────────────────────────
-function Sidebar({ active, setActive, newInquiries }: { active: string; setActive: (s:string)=>void; newInquiries: number }) {
+function Sidebar({ active, setActive, newInquiries, sidebarOpen, setSidebarOpen }: { active: string; setActive: (s:string)=>void; newInquiries: number; sidebarOpen: boolean; setSidebarOpen: (v:boolean)=>void }) {
   const { user, signOut } = useAuth()
   const ROLE_LABELS: Record<string,string> = { admin:'مدير', editor:'محرر', viewer:'مشاهد' }
 
@@ -153,8 +153,8 @@ function Sidebar({ active, setActive, newInquiries }: { active: string; setActiv
   )
 
   return (
-    <aside style={{width:'240px',background:'#fff',borderLeft:'1px solid #eee',position:'fixed',top:0,right:0,bottom:0,display:'flex',flexDirection:'column',zIndex:100,fontFamily:"'Cairo',sans-serif"}}>
-      <div style={{padding:'16px',borderBottom:'1px solid #eee'}}>
+    <aside className={`dash-sidebar${sidebarOpen ? ' open' : ''}`} style={{width:'240px',background:'#fff',borderLeft:'1px solid #eee',position:'fixed',top:0,right:0,bottom:0,display:'flex',flexDirection:'column',zIndex:120,fontFamily:"'Cairo',sans-serif",transition:'transform 0.25s ease'}}>
+      <div style={{padding:'16px',borderBottom:'1px solid #eee',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
           <img src={logoImg} alt="Al Omran Logo" style={{height:'40px',width:'auto',objectFit:'contain'}} />
           <div style={{lineHeight:'1.25'}}>
@@ -162,6 +162,7 @@ function Sidebar({ active, setActive, newInquiries }: { active: string; setActiv
             <span style={{display:'block',fontSize:'10px',color:'#8B0020'}}>لوحة التحكم</span>
           </div>
         </div>
+        <button className="dash-sidebar-close" onClick={()=>setSidebarOpen(false)} aria-label="إغلاق القائمة" style={{display:'none',background:'none',border:'none',cursor:'pointer',fontSize:'18px',color:'#666',padding:'4px',lineHeight:1}}>✕</button>
       </div>
       <nav style={{flex:1,padding:'10px 8px',display:'flex',flexDirection:'column',gap:'2px',overflowY:'auto'}}>
         <p style={{fontSize:'10px',fontWeight:700,color:'#aaa',textTransform:'uppercase',letterSpacing:'.07em',padding:'4px 10px 6px',margin:0}}>الرئيسية</p>
@@ -274,7 +275,8 @@ function UsersPage() {
         {loading ? <div style={{textAlign:'center',padding:'48px',color:'#888'}}>جارٍ التحميل…</div>
         : users.length===0 ? <div style={{textAlign:'center',padding:'48px',color:'#aaa'}}>لا يوجد مستخدمون</div>
         : (
-          <table style={{width:'100%',borderCollapse:'collapse',fontSize:'13px'}}>
+          <div className="dash-users-table">
+          <table style={{width:'100%',borderCollapse:'collapse',fontSize:'13px',minWidth:'600px'}}>
             <thead><tr style={{background:'#f8f8f8'}}>
               {['الاسم','البريد','الدور','الحالة','آخر دخول','الإجراءات'].map(h=>(
                 <th key={h} style={{padding:'10px 12px',textAlign:'right',fontWeight:700,color:'#666',fontSize:'12px',borderBottom:'1px solid #eee'}}>{h}</th>
@@ -294,6 +296,7 @@ function UsersPage() {
               </tr>
             ))}</tbody>
           </table>
+          </div>
         )}
       </div>
     </div>
@@ -335,7 +338,7 @@ function CompanySettingsPage() {
   const Card = ({title,children}:{title:string;children:React.ReactNode}) => (
     <div style={{background:'#fff',borderRadius:'12px',padding:'20px',border:'1px solid #eee',marginBottom:'16px'}}>
       <h2 style={{fontSize:'14px',fontWeight:700,color:'#8B0020',marginBottom:'16px',borderBottom:'1px solid #f0f0f0',paddingBottom:'10px'}}>{title}</h2>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'14px'}}>{children}</div>
+      <div className="dash-settings-grid" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'14px'}}>{children}</div>
     </div>
   )
 
@@ -384,6 +387,7 @@ function CompanySettingsPage() {
 function DashboardLayout() {
   const [active, setActive] = useState('overview')
   const [newInquiries, setNewInquiries] = useState(0)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // Poll for new inquiries count (lightweight)
   useEffect(() => {
@@ -408,10 +412,28 @@ function DashboardLayout() {
 
   return (
     <div style={{minHeight:'100vh',background:'#f0f2f5',fontFamily:"'Cairo',sans-serif",direction:'rtl'}}>
-      <Sidebar active={active} setActive={setActive} newInquiries={newInquiries} />
-      <main style={{marginRight:'240px',padding:'28px',minHeight:'100vh'}}>
+      {/* Mobile top bar — hidden on desktop via CSS */}
+      <header className="dash-mobile-bar" style={{display:'none',position:'fixed',top:0,left:0,right:0,height:'56px',background:'#fff',borderBottom:'1px solid #eee',zIndex:150,alignItems:'center',justifyContent:'space-between',padding:'0 16px'}}>
+        <img src={logoImg} alt="Al Omran" style={{height:'36px',objectFit:'contain'}} />
+        <button onClick={()=>setSidebarOpen(true)} aria-label="فتح القائمة" style={{background:'none',border:'none',cursor:'pointer',padding:'4px',fontSize:'22px',color:'#333',lineHeight:1}}>☰</button>
+      </header>
+      {/* Dim overlay shown behind the sidebar on mobile */}
+      {sidebarOpen && <div onClick={()=>setSidebarOpen(false)} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.4)',zIndex:110}} />}
+      <Sidebar active={active} setActive={(s)=>{setActive(s);setSidebarOpen(false)}} newInquiries={newInquiries} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <main className="dash-main" style={{marginRight:'240px',padding:'28px',minHeight:'100vh'}}>
         {pages[active] ?? <OverviewPage />}
       </main>
+      <style>{`
+        @media (max-width: 768px) {
+          .dash-mobile-bar { display: flex !important; }
+          .dash-main { margin-right: 0 !important; padding: 72px 16px 24px !important; }
+          .dash-sidebar { transform: translateX(100%); }
+          .dash-sidebar.open { transform: translateX(0); }
+          .dash-sidebar-close { display: block !important; }
+          .dash-settings-grid { grid-template-columns: 1fr !important; }
+          .dash-users-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        }
+      `}</style>
     </div>
   )
 }

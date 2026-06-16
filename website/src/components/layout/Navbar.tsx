@@ -147,9 +147,13 @@ export default function Navbar() {
           .nav-desktop-links { display: none !important; }
           .nav-desktop-actions { display: none !important; }
           .nav-hamburger { display: flex !important; align-items: center; }
+          .nav-root { padding: 0 16px !important; }
+        }
+        @media (max-width: 360px) {
+          .nav-logo-text { display: none; }
         }
       `}</style>
-      <nav role="navigation" aria-label={lang === 'ar' ? 'القائمة الرئيسية' : 'Main navigation'} style={{
+      <nav role="navigation" className="nav-root" aria-label={lang === 'ar' ? 'القائمة الرئيسية' : 'Main navigation'} style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
         height: '68px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -167,7 +171,7 @@ export default function Navbar() {
           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none' }}
         >
           <img src={logoImg} alt="Al Omran Logo" style={{ width: '46px', height: '46px', flexShrink: 0, objectFit: 'contain' }} />
-          <div style={{ lineHeight: 1.3 }}>
+          <div className="nav-logo-text" style={{ lineHeight: 1.3 }}>
             <span style={{ display: 'block', fontSize: '13px', fontWeight: 800, color: '#1a1a1a' }}>
               {lang === 'ar' ? 'مصنع العمران للخرسانة المسبقة' : 'Al Omran Precast Factory'}
             </span>
