@@ -221,6 +221,7 @@ export default function ContactPage() {
           .contact-section { padding: 36px 16px !important; }
           .hero-section { padding: 40px 16px !important; }
           .hours-section { padding: 36px 16px !important; }
+          .cf-2col { grid-template-columns: 1fr !important; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -315,7 +316,7 @@ export default function ContactPage() {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+              <div className="cf-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div>
                   <label className="cf-label">{lang === 'ar' ? 'البريد الإلكتروني *' : 'Email *'}</label>
                   <input

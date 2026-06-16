@@ -37,8 +37,30 @@ export default function AboutPage() {
 
   return (
     <div>
+      <style>{`
+        @media (min-width: 769px) and (max-width: 1200px) {
+          .about-pg-header { padding-left: 40px !important; padding-right: 40px !important; }
+          .about-main-sec, .about-vm-sec, .about-mat-sec, .about-team-sec { padding: 48px 40px !important; }
+          .about-cta-sec  { padding: 40px 40px !important; }
+          .about-vm-grid  { grid-template-columns: 1fr 1fr !important; }
+          .about-mat-grid { grid-template-columns: 1fr 1fr !important; }
+          .about-team-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 768px) {
+          .about-pg-header { padding-left: 20px !important; padding-right: 20px !important; }
+          .about-main-sec, .about-vm-sec, .about-mat-sec, .about-team-sec { padding: 40px 20px !important; }
+          .about-cta-sec  { padding: 48px 20px !important; }
+          .about-main-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .about-quote    { margin-right: 0 !important; margin-left: 0 !important; }
+          .about-vm-grid  { grid-template-columns: 1fr !important; gap: 14px !important; }
+          .about-mat-grid { grid-template-columns: 1fr !important; }
+          .about-team-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+          .about-values-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+
       {/* PAGE HEADER */}
-      <div style={S.pageHeader}>
+      <div className="about-pg-header" style={S.pageHeader}>
         <div>
           <h1 style={{fontSize:'1.9rem',fontWeight:900,color:'#1a1a1a'}}>{lang==='ar'?'من نحن':'About Us'}</h1>
           <div style={{fontSize:'12px',color:'#888',marginTop:'5px'}}>
@@ -48,13 +70,13 @@ export default function AboutPage() {
       </div>
 
       {/* ABOUT MAIN */}
-      <section ref={aboutRef} style={{padding:'68px 80px'}}>
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'60px',alignItems:'center'}}>
+      <section ref={aboutRef} className="about-main-sec" style={{padding:'68px 80px'}}>
+        <div className="about-main-grid" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'60px',alignItems:'center'}}>
           <div style={{position:'relative'}}>
             <div style={{borderRadius:'12px',overflow:'hidden',aspectRatio:'4/3'}}>
               <img src={mohammedImg} alt={lang==='ar'?'م. محمد إبراهيم - الرئيس التنفيذي':'Mohammed Ibrahim - CEO'} style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'top center'}} />
             </div>
-            <div style={{background:'#8B0020',color:'#fff',padding:'22px 26px',borderRadius:'10px',marginTop:'-36px',marginRight:'-28px',position:'relative',zIndex:2}}>
+            <div className="about-quote" style={{background:'#8B0020',color:'#fff',padding:'22px 26px',borderRadius:'10px',marginTop:'-36px',marginRight:'-28px',position:'relative',zIndex:2}}>
               <span style={{fontSize:'48px',color:'rgba(255,255,255,0.3)',lineHeight:'.8',display:'block',marginBottom:'9px'}}>"</span>
               <p style={{fontSize:'13px',lineHeight:'1.75',marginBottom:'10px'}}>
                 {lang==='ar'?'مهمتنا هي تحويل الأفكار إلى بيئات عمرانية استثنائية تلهم المجتمعات وترتقي بأسلوب الحياة الحديث.':'Our mission is to transform ideas into exceptional urban environments that inspire communities and elevate modern living.'}
@@ -76,7 +98,7 @@ export default function AboutPage() {
             <p style={{fontSize:'14px',color:'#555',lineHeight:'1.85',marginBottom:'28px'}}>
               {lang==='ar'?'نقدم مجموعة واسعة من المنتجات المصنوعة من حجر الرخام المركب والخرسانة عالية الجودة، سواء بتصاميم تقليدية أو معاصرة، مع خيارات متنوعة من الألوان والأشكال الجذابة.':'We provide an extensive selection of products crafted from premium composite marble stone and concrete, available in both traditional and contemporary designs, featuring a diverse array of appealing colors and shapes.'}
             </p>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px'}}>
+            <div className="about-values-grid" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px'}}>
               {values.map((v,i)=>(
                 <div key={i} style={{display:'flex',alignItems:'flex-start',gap:'8px'}}>
                   <span style={{color:'#8B0020',fontWeight:700,marginTop:'2px'}}>{v.icon}</span>
@@ -89,12 +111,12 @@ export default function AboutPage() {
       </section>
 
       {/* VISION & MISSION */}
-      <section style={{background:'#f8f8f8',padding:'68px 80px'}}>
+      <section className="about-vm-sec" style={{background:'#f8f8f8',padding:'68px 80px'}}>
         <div style={{textAlign:'center',marginBottom:'40px'}}>
           <div style={S.label}>{lang==='ar'?'رؤيتنا ورسالتنا':'Vision & Mission'}</div>
           <h2 style={{...S.sectionTitle,textAlign:'center'}}>{lang==='ar'?'ما الذي يحركنا':'What Drives Us'}</h2>
         </div>
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'20px'}}>
+        <div className="about-vm-grid" style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'20px'}}>
           {[
             { titleAr:'رؤيتنا', titleEn:'Our Vision', icon:'🎯', descAr:'أن نكون الاسم الأول الذي يتبادر إلى الأذهان عند الحديث عن الجودة في المنتجات الإسمنتية والأثاث الحضري، عبر التزامنا بالتميز والابتكار والاستدامة.', descEn:'To be the leading name in quality cement products and urban furniture, driven by our commitment to excellence, innovation, and sustainability.' },
             { titleAr:'رسالتنا', titleEn:'Our Mission', icon:'🚀', descAr:'نؤمن بأن كل حجر أساس وكل منتج إسمنتي يحمل في طياته قصة نجاح. لهذا نسعى جاهدين لتقديم منتجات عالية الجودة صديقة للبيئة ومواكبة للتطورات الحديثة.', descEn:'We believe every foundation stone carries a success story. That is why we strive to deliver high-quality, eco-friendly products that are aligned with modern developments.' },
@@ -110,10 +132,10 @@ export default function AboutPage() {
       </section>
 
       {/* MATERIALS */}
-      <section style={{padding:'68px 80px'}}>
+      <section className="about-mat-sec" style={{padding:'68px 80px'}}>
         <div style={S.label}>{lang==='ar'?'خاماتنا':'Our Materials'}</div>
         <h2 style={S.sectionTitle}>{lang==='ar'?'خامات وتشطيبات ':' Premium '}<span style={{color:'#8B0020'}}>{lang==='ar'?'عالية الجودة':'Materials & Finishes'}</span></h2>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'20px',marginTop:'28px'}}>
+        <div className="about-mat-grid" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'20px',marginTop:'28px'}}>
           {[
             { titleAr:'الخرسانة عالية الأداء', titleEn:'High-Performance Concrete', descAr:'يستخدم إسمنت بورتلاند الرمادي أو الأبيض عالي الجودة في إنتاج الخرسانة بالتزامن مع الرخام الطبيعي أو الركام الطبيعي.', descEn:'High quality grey or white Portland cement used in high performance concrete production combined with natural marble or natural aggregates.' },
             { titleAr:'التشطيب المصقول', titleEn:'Polished Finish', descAr:'يُستخدم في التطبيقات التي تتطلب سطحاً خرسانياً ناعماً ومستوياً. يمكن أن تشبه التشطيبات الجرانيت الطبيعي أو التيرازو.', descEn:'Used where a smooth, even concrete surface is required. Finishes can resemble natural granite or terrazzo.' },
@@ -128,12 +150,12 @@ export default function AboutPage() {
       </section>
 
       {/* TEAM */}
-      <section style={{background:'#f8f8f8',padding:'68px 80px'}}>
+      <section className="about-team-sec" style={{background:'#f8f8f8',padding:'68px 80px'}}>
         <div ref={teamHeader} style={{textAlign:'center',marginBottom:'36px'}}>
           <div style={S.label}>{lang==='ar'?'فريقنا':'Our Team'}</div>
           <h2 style={{...S.sectionTitle,textAlign:'center'}}>{lang==='ar'?'تعرف على ':' Meet '}<span style={{color:'#8B0020'}}>{lang==='ar'?'خبرائنا':'Our Experts'}</span></h2>
         </div>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'16px'}}>
+        <div className="about-team-grid" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'16px'}}>
           {team.map((m, idx)=>(
             <div key={m.name}
               ref={teamCards(idx) as unknown as React.RefCallback<HTMLDivElement>}
@@ -152,7 +174,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section style={{background:'#8B0020',padding:'60px 80px',textAlign:'center'}}>
+      <section className="about-cta-sec" style={{background:'#8B0020',padding:'60px 80px',textAlign:'center'}}>
         <h2 style={{fontSize:'1.8rem',fontWeight:900,color:'#fff',marginBottom:'12px'}}>{lang==='ar'?'انضم إلى قائمة عملائنا الناجحين':'Join Our List of Successful Clients'}</h2>
         <p style={{fontSize:'14px',color:'rgba(255,255,255,0.8)',marginBottom:'24px'}}>{lang==='ar'?'تواصل معنا اليوم للحصول على استشارة مجانية':'Contact us today for a free consultation'}</p>
         <button onClick={()=>navigate('/contact')} style={{padding:'13px 32px',background:'#fff',color:'#8B0020',border:'none',borderRadius:'8px',fontSize:'14px',fontWeight:700,cursor:'pointer'}}>

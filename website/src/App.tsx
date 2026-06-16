@@ -18,6 +18,7 @@ import AdminAnalytics from './pages/admin/AdminAnalytics'
 import AdminUsers from './pages/admin/AdminUsers'
 import AdminSettings from './pages/admin/AdminSettings'
 import ProtectedRoute from './components/layout/ProtectedRoute'
+import ScrollToTop from './components/layout/ScrollToTop'
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <>
           <style>{animationStyles}</style>
           <BrowserRouter>
+            <ScrollToTop />
             <Routes>
               {/* Public website */}
               <Route path="/" element={<Layout />}>
